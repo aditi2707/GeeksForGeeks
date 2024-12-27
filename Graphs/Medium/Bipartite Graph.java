@@ -1,5 +1,35 @@
 class Solution {
     
+    private boolean dfs(ArrayList<ArrayList<Integer>> adj, int[] visited, int src, int color){
+        
+        visited[src] = color;
+        
+        for(Integer i: adj.get(src)){
+            if(visited[i] == -1){
+                if(color == 0){
+                    color = 1;
+                }
+                else{
+                    color = 0;
+                }
+                return dfs(adj, visited, i, color);
+                // if(dfs(adj, visited, i, color)){
+                //     return true;
+                // }
+                // else{
+                //     return false;
+                // }
+            }
+            else{
+                if(visited[i] == color){
+                    return false;
+                }
+            }
+        }
+        
+        return true;
+    }
+    
     private boolean bfs(ArrayList<ArrayList<Integer>> adj, int[] visited){
         
         Queue<Integer> queue = new LinkedList<>();
@@ -36,6 +66,10 @@ class Solution {
         int[] visited = new int[adj.size()];
         Arrays.fill(visited, -1);
         
-        return bfs(adj, visited);
+        visited[0] = 0;
+        
+        return dfs(adj, visited, 0, 0);
+        
+        // return bfs(adj, visited);
     }
 }
